@@ -1,0 +1,579 @@
+2017-03-18 18:12:37,278:INFO:[BLT]: PI UART setup complete on channel 4 as : <bound method Serial.getSettingsDict of Serial<id=0x76842fd0, open=True>(port='/dev/serial0', baudrate=115200, bytesize=8, parity='N', stopbits=1, timeout=0.5, xonxoff=False, rtscts=False, dsrdtr=False)>
+2017-03-18 18:12:37,279:INFO:[BLT]: Setting up the Bluetooth module with the various commands
+2017-03-18 18:12:37,279:INFO:[BLT]: Waking up the Bluetooth module in command mode
+2017-03-18 18:12:37,279:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:37,791:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:37,791:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:37,792:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:38,303:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:38,303:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:38,304:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:38,815:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:38,815:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:38,816:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:39,327:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:39,327:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:39,328:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:39,839:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:39,839:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:39,839:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:40,350:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:40,351:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:40,351:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:40,862:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:40,863:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:40,884:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:41,396:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:41,397:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:41,397:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:41,909:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:41,910:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:41,910:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:42,422:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:42,423:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:42,423:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:42,935:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:42,935:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:42,936:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:43,447:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:43,448:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:43,449:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:43,960:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:43,961:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:43,962:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:44,473:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:44,474:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:44,475:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:44,986:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:44,987:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:44,988:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:45,499:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:45,500:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:45,501:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:46,012:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:46,013:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:46,024:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:46,535:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:46,536:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:46,537:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:47,048:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:47,049:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:47,050:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:47,561:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:47,562:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:47,563:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:48,074:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:48,075:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:48,076:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:48,588:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:48,589:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:48,590:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:49,101:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:49,102:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:49,103:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:49,614:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:49,615:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:49,616:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:50,127:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:50,128:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:50,128:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:50,640:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:50,641:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:50,641:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:51,153:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:51,154:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:51,165:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:51,676:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:51,677:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:51,678:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:52,189:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:52,190:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:52,191:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:52,702:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:52,703:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:52,704:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:53,215:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:53,216:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:53,217:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:53,728:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:53,729:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:53,730:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:54,241:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:54,242:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:54,243:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:54,754:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:54,755:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:54,756:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:55,267:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:55,268:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:55,269:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:55,780:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:55,781:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:55,781:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:56,293:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:56,294:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:56,295:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:56,806:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:56,807:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:56,808:INFO:[BLT]: Wake-up message >b'$$$'< written to Bluetooth module and got response :3
+2017-03-18 18:12:57,319:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:57,320:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:12:57,821:INFO:[BLT]: Message >b'X\r\n'< written to Bluetooth module and got response :3
+2017-03-18 18:12:58,333:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:12:58,334:WARNING:[BLT]: Length of response received is too short:b''
+
+too big a response to handle
+
+2017-03-18 18:12:58,334:INFO:[BLT]: Message >b'X\r\n'< written to Bluetooth module and got response :3
+2017-03-18 18:12:59,346:DEBUG:[BLT]: Data read back from the serial port :b'BTNameaudrode0\r\nAutnCod2nded=1em=\n*** Set\nSrvP\r\nS000\rlassnqWi0\r\nPaWi=01%\r\n**tin\nPre= PChar= \r\nSnna=00 Power=\nRo'
+2017-03-18 18:12:59,347:WARNING:[BLT]: No command prompt received from the Bluetooth module:b'r=\nRo'
+2017-03-18 18:12:59,347:INFO:[BLT]: Message >b'X\r\n'< written to Bluetooth module and got response :3
+2017-03-18 18:13:00,359:DEBUG:[BLT]: Data read back from the serial port :b'p\rt1\rMe=\ntn\rPC=5\nnd\rRm4B5F\n*VC tg*\nvmS\rrvls0\reCa=1FqWid=gW1\rSaS%\r**H tn*\rPfeS\rCCr$Snfa000\r\nLo\nTX\nS=\nD'
+2017-03-18 18:13:00,359:WARNING:[BLT]: No command prompt received from the Bluetooth module:b'\nS=\nD'
+2017-03-18 18:13:00,860:INFO:[BLT]: Message >b'V\r\n'< written to Bluetooth module and got response :3
+2017-03-18 18:13:01,873:DEBUG:[BLT]: Data read back from the serial port :b')Microchipechy IMD'
+2017-03-18 18:13:01,885:WARNING:[BLT]: No command prompt received from the Bluetooth module:b'y IMD'
+2017-03-18 18:13:01,886:INFO:[BLT]: Message >b'V\r\n'< written to Bluetooth module and got response :3
+2017-03-18 18:13:02,898:DEBUG:[BLT]: Data read back from the serial port :b'c)McohpTcnog Ic\nM>'
+2017-03-18 18:13:02,898:WARNING:[BLT]: No command prompt received from the Bluetooth module:b'Ic\nM>'
+2017-03-18 18:13:02,899:INFO:[BLT]: Message >b'V\r\n'< written to Bluetooth module and got response :3
+2017-03-18 18:13:03,910:DEBUG:[BLT]: Data read back from the serial port :b'crochip Technology Inc\r\nCMD> '
+
+
+No responses to anything
+
+2017-03-18 18:13:03,911:INFO:Message checked for Positive and Command responses
+2017-03-18 18:13:03,911:DEBUG:[BLT]: Sent Config Command successfully: b'V\r\n'
+2017-03-18 18:13:04,412:INFO:[BLT]: Message >b'SM,0\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:04,437:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:04,437:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:04,438:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:04,438:INFO:[BLT]: Message >b'SM,0\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:04,462:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:04,463:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:04,463:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:04,464:INFO:[BLT]: Message >b'SM,0\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:04,487:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:04,487:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:04,488:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:04,989:INFO:[BLT]: Message >b'SG,1\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:05,003:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:05,004:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:05,004:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:05,005:INFO:[BLT]: Message >b'SG,1\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:05,019:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:05,020:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:05,020:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:05,021:INFO:[BLT]: Message >b'SG,1\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:05,035:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:05,035:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:05,036:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:05,538:INFO:[BLT]: Message >b'SN,eWaterPay Tap\r\n'< written to Bluetooth module and got response :18
+2017-03-18 18:13:05,590:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:05,592:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:05,592:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:05,593:INFO:[BLT]: Message >b'SN,eWaterPay Tap\r\n'< written to Bluetooth module and got response :18
+2017-03-18 18:13:05,646:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:05,647:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:05,648:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:05,649:INFO:[BLT]: Message >b'SN,eWaterPay Tap\r\n'< written to Bluetooth module and got response :18
+2017-03-18 18:13:05,700:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:05,701:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:05,702:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:06,203:INFO:[BLT]: Message >b'SS,SPP eWaterPay\r\n'< written to Bluetooth module and got response :18
+2017-03-18 18:13:06,255:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:06,255:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:06,255:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:06,256:INFO:[BLT]: Message >b'SS,SPP eWaterPay\r\n'< written to Bluetooth module and got response :18
+2017-03-18 18:13:06,308:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:06,308:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:06,309:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:06,309:INFO:[BLT]: Message >b'SS,SPP eWaterPay\r\n'< written to Bluetooth module and got response :18
+2017-03-18 18:13:06,361:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:06,361:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:06,362:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:06,863:INFO:[BLT]: Message >b'SA,4\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:06,874:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:06,875:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:06,875:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:06,876:INFO:[BLT]: Message >b'SA,4\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:06,888:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:06,888:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:06,888:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:06,889:INFO:[BLT]: Message >b'SA,4\r\n'< written to Bluetooth module and got response :6
+2017-03-18 18:13:06,901:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:06,901:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:06,902:WARNING:[BLT]: Length of response received is too short:b''
+2017-03-18 18:13:07,403:INFO:[BLT]: Rebooting the Bluetooth module
+2017-03-18 18:13:07,403:INFO:[BLT]: Message >b'R,1\r\n'< written to Bluetooth module and got response :5
+2017-03-18 18:13:07,915:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:07,915:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:08,278:WARNING:[BLT]: Reading of data on the serial port FAILED
+2017-03-18 18:13:08,278:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:08,278:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:08,790:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:08,790:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:09,301:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:09,302:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:09,813:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:09,814:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:10,325:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:10,325:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:10,837:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:10,837:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:11,349:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:11,350:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:11,861:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:11,862:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:12,374:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:12,382:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:12,894:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:12,895:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:13,406:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:13,407:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:13,918:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:13,919:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:14,431:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:14,431:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:14,943:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:14,943:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:15,454:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:15,455:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:15,966:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:15,967:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:16,479:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:16,479:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:16,991:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:16,992:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:17,504:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:17,504:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:18,021:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:18,022:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:18,533:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:18,534:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:19,046:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:19,047:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:19,558:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:19,559:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:20,070:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:20,071:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:20,583:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:20,583:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:21,095:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:21,096:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:21,607:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:21,608:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:22,120:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:22,121:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:22,632:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:22,633:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:23,144:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:23,145:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:23,657:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:23,657:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:24,169:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:24,170:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:24,681:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:24,682:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:25,194:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:25,195:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:25,706:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:25,707:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:26,219:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:26,220:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:26,731:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:26,732:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:27,244:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:27,245:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:27,756:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:27,763:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:28,274:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:28,275:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:28,787:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:28,788:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:29,299:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:29,300:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:29,812:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:29,812:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:30,324:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:30,325:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:30,836:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:30,837:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:31,349:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:31,349:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:31,861:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:31,862:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:32,373:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:32,374:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:32,886:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:32,887:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:33,398:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:33,399:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:33,910:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:33,911:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:34,422:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:34,422:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:34,934:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:34,935:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:35,446:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:35,447:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:35,958:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:35,959:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:36,470:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:36,471:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:36,982:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:36,983:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:37,495:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:37,495:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:37,496:DEBUG:[BLT]: Rebooted timeout occurred
+2017-03-18 18:13:37,496:DEBUG:[BLT]: Number of retries remaining: 2
+2017-03-18 18:13:37,496:INFO:[BLT]: Message >b'R,1\r\n'< written to Bluetooth module and got response :5
+2017-03-18 18:13:38,007:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:38,008:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:38,519:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:38,520:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:39,031:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:39,032:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:39,543:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:39,543:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:40,055:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:40,055:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:40,566:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:40,567:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:41,078:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:41,079:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:41,590:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:41,591:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:42,103:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:42,104:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:42,615:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:42,616:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:43,127:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:43,128:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:43,640:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:43,641:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:44,152:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:44,153:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:44,664:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:44,665:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:45,177:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:45,178:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:45,689:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:45,690:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:46,202:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:46,203:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:46,714:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:46,715:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:47,226:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:47,227:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:47,738:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:47,738:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:48,250:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:48,250:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:48,761:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:48,762:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:49,273:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:49,274:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:49,785:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:49,786:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:50,302:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:50,303:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:50,814:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:50,815:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:51,326:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:51,327:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:51,839:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:51,839:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:52,351:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:52,352:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:52,863:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:52,864:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:53,376:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:53,376:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:53,888:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:53,889:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:54,400:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:54,401:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:54,913:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:54,914:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:55,430:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:55,431:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:55,942:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:55,943:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:56,455:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:56,455:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:56,967:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:56,968:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:57,479:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:57,480:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:57,992:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:57,993:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:58,504:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:58,505:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:59,016:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:59,017:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:13:59,528:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:13:59,529:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:00,040:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:00,040:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:00,557:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:00,557:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:01,068:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:01,069:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:01,580:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:01,581:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:02,092:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:02,092:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:02,604:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:02,604:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:03,115:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:03,116:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:03,627:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:03,628:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:04,139:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:04,139:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:04,651:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:04,651:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:05,162:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:05,163:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:05,682:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:05,683:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:06,194:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:06,195:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:06,706:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:06,706:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:07,218:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:07,218:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:07,729:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:07,730:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:07,730:DEBUG:[BLT]: Rebooted timeout occurred
+2017-03-18 18:14:07,730:DEBUG:[BLT]: Number of retries remaining: 1
+2017-03-18 18:14:07,731:INFO:[BLT]: Message >b'R,1\r\n'< written to Bluetooth module and got response :5
+2017-03-18 18:14:08,242:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:08,242:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:08,753:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:08,754:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:09,265:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:09,266:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:09,777:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:09,777:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:10,289:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:10,289:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:10,801:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:10,802:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:11,313:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:11,314:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:11,826:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:11,827:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:12,338:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:12,338:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:12,850:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:12,850:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:13,361:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:13,362:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:13,873:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:13,874:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:14,385:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:14,386:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:14,897:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:14,898:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:15,409:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:15,410:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:15,921:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:15,922:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:16,434:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:16,435:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:16,946:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:16,947:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:17,458:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:17,459:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:17,971:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:17,971:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:18,483:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:18,484:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:18,995:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:18,996:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:19,508:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:19,509:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:20,021:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:20,021:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:20,532:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:20,533:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:21,044:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:21,045:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:21,556:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:21,557:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:22,069:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:22,069:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:22,581:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:22,582:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:23,093:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:23,094:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:23,605:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:23,606:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:24,117:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:24,119:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:24,630:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:24,631:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:25,142:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:25,142:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:25,654:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:25,655:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:26,167:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:26,167:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:26,679:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:26,687:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:27,198:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:27,198:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:27,710:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:27,710:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:28,221:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:28,222:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:28,733:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:28,733:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:29,245:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:29,245:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:29,756:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:29,757:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:30,268:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:30,269:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:30,780:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:30,781:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:31,292:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:31,293:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:31,804:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:31,809:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:32,321:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:32,321:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:32,833:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:32,833:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:33,344:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:33,345:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:33,856:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:33,856:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:34,367:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:34,368:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:34,879:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:34,880:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:35,391:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:35,391:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:35,903:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:35,904:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:36,415:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:36,416:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:36,928:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:36,934:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:37,446:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:37,446:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:37,957:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-03-18 18:14:37,958:DEBUG:[BLT]: Rebooting Status: 1
+2017-03-18 18:14:37,958:DEBUG:[BLT]: Rebooted timeout occurred
+2017-03-18 18:14:37,958:DEBUG:[BLT]: Number of retries remaining: 0
+2017-03-18 18:14:38,459:INFO:[CTL]:Starting the main application
+2017-03-18 18:14:38,461:WARNING:Exception:Traceback (most recent call last):
+  File "Control.py", line 82, in <module>
+    main(device)
+  File "Control.py", line 37, in main
+    while connection[0] == False:
+UnboundLocalError: local variable 'connection' referenced before assignment
+
