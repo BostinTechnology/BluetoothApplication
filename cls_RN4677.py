@@ -1,5 +1,9 @@
 """
 
+  cls_RN4677.py
+  
+  Copyright 2017  <Bostin Technology>
+
 This class provides all the functionality to talk to the RN4677 Bluetooth module
 
 Public functions are
