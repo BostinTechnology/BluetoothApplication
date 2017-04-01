@@ -10,7 +10,8 @@ This class provides the comms for the Android application implementation for eWa
 All private functions start with _
 
 TODO: Implement a CRC check
-TODO: implement the firmware recieved commands
+TODO: implement the firmware megative response command
+
 
 
 """
@@ -18,6 +19,7 @@ TODO: implement the firmware recieved commands
 import logging
 import datetime
 import time
+import binascii
 
 # Commands supported
 CMD_ASSET_STATUS = b'A'         #0x41
@@ -25,22 +27,21 @@ CMD_REQUEST_ID = b'G'           #0x47
 CMD_DATA_CHUNK = b'H'           #0x48
 CMD_READY_TO_RECEIVE = b'I'     #0x49
 CMD_IOT_RECEIVED_OK = b'J'      #0x4A
+CMD_IOT_FIRMWARE_FAILED = bytes.fromhex('4F')       # Not yet defined
 
 # Command Replies
 RSP_POSITIVE = bytes.fromhex('80')
 RSP_NEGATIVE = bytes.fromhex('11')
-ETX_CHAR = bytes.fromhex('03')
 
 
 # Command elements
-ETX_CHAR = b'\x03'
+ETX_CHAR = bytes.fromhex('03')
 IOT_FIRMWARE = b'V1.11'
 EWC_FIRMWARE = b'V2.22'
 EWC_BOOTLOADER = b'V3.33'
 IOT_BOOTLOADER = b'V4.44'
 POWER_ON_TIME = b'12:12:12'
 LAST_POWER_OFF_TIME = b'11:11:11'
-EWC_ID = [b'\x01',b'\x00', b'\x00', b'\x00']
 LAST_CHUNK_IDENTIFIER = b'\xff\xff'
 
 
@@ -71,7 +72,14 @@ class eWaterPayAD:
         """
         self.ewc = ewc              # The ID of the EWC
         self.file_received = {}     # This contains a dictionary, each one being a chunk of data with the chunk number as the index
-
+        self.file_written = False
+        self.receiving_data = False
+        self.response = b''                  # The reply for the calling function
+        self.response_status = False        # The status of the responding message (True = Valid message to send)
+        self.file_written = False
+        self.chunk = b''
+        self.payload = b''
+        self.filename = ''        
         return
 
     def incoming(self, message):
@@ -86,7 +94,9 @@ class eWaterPayAD:
         self.payload = b''
         self.pkt_etx = b''
         self.response = b''                  # The reply for the calling function
-        self.response_status = False        # The status of the responding message (True = Valid message)
+        self.response_status = False        # The status of the responding message (True = Valid message to send)
+        self.file_written = False
+        self.filename = ''
 
         self.message = message
         logging.debug("[EWD]: Received message for processing:%s" % self.message)
@@ -95,31 +105,63 @@ class eWaterPayAD:
             self.time_packet_received = time.time()
             if self._validated():
                 logging.debug("[EWD]: Message is valid")
-                if self.cmd == ASSET_STATUS:
+                if self.cmd == CMD_ASSET_STATUS:
                     logging.info("[EWD]: Asset Status Command received")
                     self.response = self._asset_response()
                     self.response_status = True
-                elif self.cmd == REQUEST_ID:
+                elif self.cmd == CMD_REQUEST_ID:
                     logging.info("[EWD]: Request ID Command received")
                     self.response = self._request_id_response()
                     self.response_status = True
-                elif self.cmd == READY_TO_RECEIVE:
+                elif self.cmd == CMD_READY_TO_RECEIVE:
                     logging.info("[EWD]: Ready To Receive Command received")
                     self.response = self._ready_to_receive_response()
                     self.response_status = True
-                elif self.cmd == DATA_CHUNK:
+                elif self.cmd == CMD_DATA_CHUNK:
                     logging.info("[EWD]: Data Chunk Command received")
                     self.response = self._process_data_chunk()
-                    self.response_status = True
+                    self.response_status = (len(self.response) > 0)     # The reply ios based on data being available to send
                 else:
-                    # Data is not valid
+                    # Command is unknown
                     logging.info("[EWD]: Unknown Command Received")
-                    self.response = self._generate_nack()
-                    self.response_status = True  
+                    self.response_status = False  
+            else:
+                # Data is not valid
+                logging.info("[EWD]: Message received is invalid")
+                self.response_status = False  
+        else:
+            # Unable to Parse the data
+            logging.info("[EWD]: Unable to Parse the data")
+            self.response_status = False  
+
+        return self.response
+
+    def reply(self):
+        # Return the response to send back
+        return self.response
+    
+    def reply_status(self):
+        return self.response_status
+
+    def reply_chunk_number(self):
+        return self.chunk
         
-        #TODO: What do I do here?????
-
-
+    def reply_payload(self):
+        return self.payload
+    
+    def file_write_status(self):
+        return self.file_written
+    
+    def return_filename(self):
+        return self.filename
+    
+    def download_status(self):
+        return self.receiving_data
+    
+    def exit_comms(self):
+        # This routine is called to clean up any items on exit of the main program
+        print("Bye!")
+        
         return
 
 #-----------------------------------------------------------------------
@@ -133,25 +175,29 @@ class eWaterPayAD:
         Splits the packet into the constituant parts
         """
         status = False
-        if len(packet) > MIN_LENGTH:
+        if len(packet) >= MIN_LENGTH:
             # All messages longer than the minimum length have a command byte
-            self.cmd = packet[CMD_LOCATION]
+            self.cmd = packet[CMD_LOCATION:CMD_LOCATION+1]
             if len(packet) > (MIN_LENGTH + ID_LENGTH):
                 # If the message is longer than min + id, the next bit is the id
                 self.pkt_id = packet[ID_START:CHUNK_COUNTER_START]
             if len(packet) > (PAYLOAD_START):
                 # If the message is longer than the payload start, must contain the chunk id and the remainder of the data
-                self.chunk.join(packet[CHUNK_COUNTER_START:PAYLOAD_START])          # merge the chunk msb and lsb into a single vale
+                self.chunk = packet[CHUNK_COUNTER_START:PAYLOAD_START]
                 if len(packet) > (PAYLOAD_START + len(ETX_CHAR)):
-                    # ONly add a payload if the packet is longer than the start of payload plus the etx char(s)
+                    # Only add a payload if the packet is longer than the start of payload plus the etx char(s)
                     self.payload = packet[PAYLOAD_START:-LENGTH_ETX]        #Note the minus sign
-            self.pkt_etx = packet[-LENGTH_ETX:]         #Note the minus sign
+            self.pkt_etx = packet[-LENGTH_ETX:]        #Note the minus sign
             status = True
         else:
+            status = False
+            logging.debug("[EWD]: Packet received is below the minimum length(%s)" % len(packet))
         logging.debug("[EWD]: Incoming message command:%s" % self.cmd)
         logging.debug("[EWD]: Incoming message ID:%s" % self.pkt_id)
         logging.debug("[EWD]: Incoming message Chunk Number:%s" % self.chunk)
         logging.debug("[EWD]: Incoming message Payload:%s" % self.payload)
+        logging.debug("[EWD]: Incoming message ETX Character:%s" % self.pkt_etx)
+        
         return status
 
     def _validated(self):
@@ -173,7 +219,8 @@ class eWaterPayAD:
         xor = 0
         for byte in (packet_to_send):
             logging.debug("byte being XOR'd:%s" % byte)
-            xor = xor ^ int(binascii.b2a_hex(byte),16)
+            #xor = xor ^ int(binascii.b2a_hex(byte),16)
+            xor = xor ^ byte
 
         xor_char = binascii.a2b_hex('{:02x}'.format(xor))
         return xor_char
@@ -190,13 +237,16 @@ class eWaterPayAD:
         """
         Take the given file and write it to a file
         """
+        self.file_written = False
         try:
             filetime = datetime.datetime.now().strftime("%y%m%d%H%M%S-%f")
-            datafile = open("EWD-" + filetime + ".txt", "w")
+            self.filename = "EWD-" + filetime + ".txt"
+            datafile = open(self.filename, "w")
             for chunk,data in self.file_received.items():
                 datafile.write('{0}:{1}/r/n'.format(chunk,data))
             datafile.close()
             logging.info("[EWD] - Data File Written EWD%s" % filetime)
+            self.file_written = True
         except:
             # File writing failed
            logging.warning("[EWD] - Failed to write data to the log file!: %s")
@@ -207,19 +257,23 @@ class eWaterPayAD:
         """
         Generate the firmware received ok message
         """
-        print ("firmware received not yet implemented")
-        logging.warning("[EWD]:fiormware received  not yet implemented")
-        return
+        packet_to_send = b''
+        packet_to_send = packet_to_send + CMD_IOT_RECEIVED_OK
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+        logging.ingo("[EWD]: Firmware Packet Received ok")
+        return packet_to_send
     
     def _firmware_file_corrupt(self):
         """
         Generate the firmware failed CRC check message
         """
-        print ("firmware received failed not yet implemented")
-        logging.warning("[EWD]:fiormware received failed not yet implemented")
-        return
-        
-        return
+        packet_to_send = b''
+        packet_to_send = packet_to_send + CMD_IOT_FIRMWARE_FAILED
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+        logging.ingo("[EWD]: Firmware Packet Received ok")
+        return packet_to_send
         
     def _asset_response(self):
         """
@@ -227,7 +281,7 @@ class eWaterPayAD:
         """
         packet_to_send = b''
 
-        packet_to_send = packet_to_send + POSITIVE_CMD
+        packet_to_send = packet_to_send + RSP_POSITIVE
         packet_to_send = packet_to_send + IOT_FIRMWARE
         packet_to_send = packet_to_send + EWC_FIRMWARE
         packet_to_send = packet_to_send + EWC_BOOTLOADER
@@ -248,9 +302,9 @@ class eWaterPayAD:
         """
         packet_to_send = b''
 
-        packet_to_send = packet_to_send + POSITIVE_CMD
-        packet_to_send = packet_to_send + REQUEST_ID
-        packet_to_send.append(EWC_ID)
+        packet_to_send = packet_to_send + RSP_POSITIVE
+        packet_to_send = packet_to_send + CMD_REQUEST_ID
+        packet_to_send = packet_to_send + self.ewc
         packet_to_send = packet_to_send + ETX_CHAR
 
         xor = self._add_xor(packet_to_send)
@@ -265,7 +319,7 @@ class eWaterPayAD:
         """
         packet_to_send = b''
 
-        packet_to_send = packet_to_send + POSITIVE_CMD
+        packet_to_send = packet_to_send + RSP_POSITIVE
         packet_to_send = packet_to_send + READY_TO_RECEIVE
         packet_to_send = packet_to_send + ETX_CHAR
 
@@ -283,7 +337,7 @@ class eWaterPayAD:
         NOTE: response will be nothing unless the last chunk received
         """
         response = b''
-        if self.receiving_data = False:
+        if self.receiving_data == False:
             logging.debug("[EWD]: Starting to receive a new file")
             # Empty the dictionary
             self.file_received = {}
@@ -292,7 +346,7 @@ class eWaterPayAD:
         self.file_received[self.chunk] = self.payload
 
         
-        if self.chunk = LAST_CHUNK_IDENTIFIER:
+        if self.chunk == LAST_CHUNK_IDENTIFIER:
             # We have received the last chunk of the file
             logging.info("[EWD]: Last chunk identifier received")
             if self._perform_CRC_check(self):
@@ -302,8 +356,6 @@ class eWaterPayAD:
             else:
                 logging.warning("[EWD]: CRC check of the received file failed")
                 response = self._firmware_file_corrupt()
-                
-
         return response
 
         

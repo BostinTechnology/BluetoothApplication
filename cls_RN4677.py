@@ -45,6 +45,26 @@ BUG: When reading from the serial port, if the data length is massive, it return
 - maybe use a different function to read the settings that keeps reading until it gets them all
 - could set retries high for this so it keeps going, but the log file is messy.
 
+BUG: With some of the commands, it appears to be not reading the reply, but then getting them all at once!
+2017-04-01 17:05:57,318:INFO:[BLT]: Message >b'SF,1\r\n'< written to Bluetooth module and got response :6
+2017-04-01 17:05:57,829:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-04-01 17:05:57,830:WARNING:[BLT]: Length of response received is too short:b''
+2017-04-01 17:05:57,830:INFO:[BLT]: Message >b'SF,1\r\n'< written to Bluetooth module and got response :6
+2017-04-01 17:05:58,341:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-04-01 17:05:58,342:WARNING:[BLT]: Length of response received is too short:b''
+2017-04-01 17:05:58,343:INFO:[BLT]: Message >b'SF,1\r\n'< written to Bluetooth module and got response :6
+2017-04-01 17:05:58,854:DEBUG:[BLT]: Data read back from the serial port :b''
+2017-04-01 17:05:58,855:WARNING:[BLT]: Length of response received is too short:b''
+2017-04-01 17:05:59,356:INFO:[BLT]: Message >b'SM,0\r\n'< written to Bluetooth module and got response :6
+2017-04-01 17:06:00,369:DEBUG:[BLT]: Data read back from the serial port :b'AOK\r\nCMD> AOK\r\nCMD> AOK\r\nCMD> AOK\r\nCMD> '
+
+BUG: Use the below code instead of what I currently have
+>>> while True:
+	if ser.in_waiting:
+		print("%s" % ser.readall())
+
+BUG: When the bluetooth is turned off, the software still runs!
+
 TODO: Need to go through and add timeouts
 """
 
@@ -95,7 +115,7 @@ COMMAND_RSP_POSN = 5        # The number of characters from the end where the co
 
 # Bluetooth setup
 #   The following commands are sent to setup the bluetooth module.
-SETUP_BLUETOOTH = [b'SF,1',b'SM,0', b'SG,0', b'SN,eWaterPay Tap', b'SS,SPP eWaterPay', b'SA,4', b'SP,0000']  #b'SP,2551']
+SETUP_BLUETOOTH = [b'SF,1',b'SM,0', b'SG,0', b'SN,eWaterPay Tap', b'SS,SPP eWaterPay', b'SA,2', b'SP,123456']  #b'SP,2551']
 """                  SF,1 - Factory Reset
                              SM,0 - Slave Mode
                                       SG,0 - Dual Mode
@@ -128,7 +148,7 @@ class RN4677:
         """
         response = ""
         #Note: Need to check if in command mode first.
-        if _bluetooth_command_mode_wakeup():
+        if self._bluetooth_command_mode_wakeup():
             reply = self._send_command(CONNECTION_STATUS)
             # reply will contain the response -> 3 digits seperated by comma
             connection_status = reply.split(b',')
@@ -142,6 +162,7 @@ class RN4677:
                 response = True
             else:
                 response = False
+        self._end_comms()
         return response
     
     def waiting_for_connection(self, timeout=30):
@@ -155,7 +176,7 @@ class RN4677:
         status = [False, False]
         endtime = datetime.datetime.now() + datetime.timedelta(seconds=timeout)
         connected = False
-        while endtime < datetime.datetime.now() or connected == True:
+        while endtime > datetime.datetime.now() or connected == True:
             response = self._read_from_sp()
             if NEW_PAIRING in response:
                 status[1] = True
@@ -163,21 +184,32 @@ class RN4677:
                 status[0] = True
                 connected = True
         logging.debug("[BLT]: Connection status:%s (1=Connected, 1=New pairing)" % status)
+        self._end_comms()
         return status
     
-    def receive_data(self, lengthdata):
+    def receive_data(self, lengthdata=-1):
         """
         Capture whatever data over the serial port and return it
         lengthdata defines how many bytes to receive
         """
         logging.info("[BLT]: Receiving data of length %s" % lengthdata)
         response = self._read_from_sp(lengthdata)
+        response = response.strip(b'\r\n')
         return response
+    
+    def send_data(self, packet):
+        """
+        Send the given packet to the bluetooth device, mo response
+        """
+        send_status = False
+        self._write_to_sp(packet)
+        return
 
     def exit_comms(self):
         """
         This routine is to be called on the exit of the main program
         """
+        logging.info("[BLT]: Exiting Comms")
         self._end_comms()
         self.fd.close()
         return
@@ -373,10 +405,10 @@ class RN4677:
                 time.sleep(SRDELAY)
                 reply = self._read_from_sp()
                 if self._check_blt_response(reply, aok):
-                    logging.debug("[BLT]: Sent Config Command successfully: %s" % command)
+                    logging.debug("[BLT]: Sent Command successfully: %s" % command)
                     break
             else:
-                logging.warning("[BLT]: Failed to Send Config Command %s" % command)
+                logging.warning("[BLT]: Failed to Send Command %s" % command)
             tries = tries - 1
         return reply
 

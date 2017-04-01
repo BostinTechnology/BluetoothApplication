@@ -18,6 +18,9 @@ import sys
 
 
 import cls_RN4677
+import cls_eWaterDecoder
+
+EWC_ID = b'\x01\x00\x00\x00'
 
 
 """
@@ -27,44 +30,60 @@ Current status - app is running but the phone is connectting using default pin.
 
 Could be the various security settings that are wrong???
 
+BUG: Can't use CTRL-C to exit the program
+
 
 """
 
 
 def main(device):
     
+    decoder = cls_eWaterDecoder.eWaterPayAD(EWC_ID)
     logging.info("[CTL]:Starting the main application")
     connection = [False]
-    while connection[0] == False:
-        try:
-            # Check for connection
-            print("Waiting for Bluetooth connection")
-            connection = device.waiting_for_connection()
-            
-            # Check paired and secure
-            if connection[0] == True:
-                print("Device Connected")
-                if connection[1] == True:
-                    print("New device connection made")
-            else:
-                print("No connection, press any key to retry or CTRL-C to cancel")
-        except KeyboardInterrupt:
-            logging.debug("[CTL]: No connection made")
-            print("No connection made, aborting")
-            sys.exit()
+    
+#   commented out as unable to pair at present
+#    while connection[0] == False:
+#        try:
+#            # Check for connection
+#            print("Waiting for Bluetooth connection")
+#            connection = device.waiting_for_connection()
+#            
+#            # Check paired and secure
+#            if connection[0] == True:
+#                print("Device Connected")
+#                if connection[1] == True:
+#                    print("New device connection made")
+#            else:
+#                print("No connection, press any key to retry or CTRL-C to cancel")
+#        except KeyboardInterrupt:
+#            logging.debug("[CTL]: No connection made")
+#            print("No connection made, aborting")
+#            sys.exit()
     
     # Check connection
     if device.connection_status() == False:
         logging.info("[CTL]: Device connection failure")
         print("Device Connection Failure, program aborted")
-        
-    # Download file
-    download = device.receive_data(5)
+        #sys.exit()
     
-    # Check and save file
-    print("Data downloaded:")
-    print("----------------\n")
-    print("%s" % download)
+    while True:
+        # Sit in a loop receiving data and processing it
+        message = b''
+        print("Waiting for a message")
+        while len(message) < 1:
+            message = device.receive_data(-1)
+        print("Message Received:%s" % messag)
+        reply = decoder.incoming(message)
+        if decoder.reply_status:
+            device.send_data(reply)
+            print("Reply SEnt:%s" % reply)
+        if decoder.download_status():
+            print("Data downloading:")
+        if decoder.file_write_status():
+            print("File Received and stored as %s" % decoder.filename)
+        
+    
 
     # End Connection
     device.exit_comms()
@@ -83,6 +102,7 @@ if __name__ == '__main__':
         main(device)
     
     except:
+        logging.error("[CTL]: AN error has occurred and comms is exiting")
         if device:
             device.exit_comms()
         logging.warning("Exception:%s" % traceback.format_exc())
