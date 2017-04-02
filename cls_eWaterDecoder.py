@@ -261,7 +261,7 @@ class eWaterPayAD:
         packet_to_send = packet_to_send + CMD_IOT_RECEIVED_OK
         packet_to_send = packet_to_send + self.ewc
         packet_to_send = packet_to_send + ETX_CHAR
-        logging.ingo("[EWD]: Firmware Packet Received ok")
+        logging.info("[EWD]: Firmware Packet Received ok")
         return packet_to_send
     
     def _firmware_file_corrupt(self):
@@ -320,7 +320,7 @@ class eWaterPayAD:
         packet_to_send = b''
 
         packet_to_send = packet_to_send + RSP_POSITIVE
-        packet_to_send = packet_to_send + READY_TO_RECEIVE
+        packet_to_send = packet_to_send + CMD_READY_TO_RECEIVE
         packet_to_send = packet_to_send + ETX_CHAR
 
         logging.info("[EWD] Message To Send: Ready to Recieve Response: %s" % packet_to_send)
@@ -349,8 +349,8 @@ class eWaterPayAD:
         if self.chunk == LAST_CHUNK_IDENTIFIER:
             # We have received the last chunk of the file
             logging.info("[EWD]: Last chunk identifier received")
-            if self._perform_CRC_check(self):
-                self._create_file(self)
+            if self._perform_CRC_check():
+                self._create_file()
                 response = self._firmware_received_ok()
                 self.receiving_data = False
             else:
