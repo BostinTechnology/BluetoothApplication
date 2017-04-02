@@ -13,57 +13,14 @@ Public functions are
 
     Setup is completed on initialisation
 
-BUG: If the module is already in command mode, the $$$ doesn't get the same response
-    Need to find a way to reset the comms
-    Could try sending a CR and LF to see if it fixes it
-    
-BUG: Not sure, but I think when trying to enter comms mode, if it fails I still carry on.
-
-BUG: reading of the system info not working right
-2017-03-11 16:16:14,515:INFO:[BLT]: Message >b'SN,eWaterPay Tap\r\n'< written to Bluetooth module and got response :18
-2017-03-11 16:16:14,526:DEBUG:[BLT]: Data read back from the serial port :b''
-2017-03-11 16:16:14,527:WARNING:[BLT]: Length of response received is too short:b''
-2017-03-11 16:16:14,527:INFO:[BLT]: Message >b'SN,eWaterPay Tap\r\n'< written to Bluetooth module and got response :18
-2017-03-11 16:16:14,538:DEBUG:[BLT]: Data read back from the serial port :b'00\r\nLowPower=\r\nTX Power=3\r\nRoleSwch=1\r\nCMD> terPay Tap\r\nBaudrt=115K\r\nMode  =0\r\nAuthen=1\r\nPinCod=2551\r\nBonded=1\r\nRem=9471BC'
-2017-03-11 16:16:14,538:WARNING:[BLT]: Negative response received from the Bluetooth module:b'Rem=9471BC'
-2017-03-11 16:16:14,539:INFO:[BLT]: Message >b'SN,eWaterPay Tap\r\n'< written to Bluetooth module and got response :18
-2017-03-11 16:16:14,549:DEBUG:[BLT]: Data read back from the serial port :b'5566F5\r\n***ADVANCED Settings***\r\nSrvName= SPP eWaterPay\r\nSrvClass=0000\r\nDevClass=1F00\r\nInqWindw=0100\r\nPagWindw=0100\r\nStatuStr=%,%\r\n***OT'
-2017-03-11 16:16:14,550:WARNING:[BLT]: Negative response received from the Bluetooth module:b'%,%\r\n***OT'
-2017-03-11 16:16:15,051:INFO:[BLT]: Message >b'SS,SPP eWaterPay\r\n'< written to Bluetooth module and got response :18
-2017-03-11 16:16:15,062:DEBUG:[BLT]: Data read back from the serial port :b'Technology Inc\r\nCMD> '
-2017-03-11 16:16:15,063:WARNING:[BLT]: Negative response received from the Bluetooth module:b'Inc\r\nCMD> '
-2017-03-11 16:16:15,064:INFO:[BLT]: Message >b'SS,SPP eWaterPay\r\n'< written to Bluetooth module and got response :18
-
-BUG: In _read_from_sp, if there is no response, it just return immediately and therefore my retry loops fail too quickly
-
-BUG: Reboot is missing the messages for the reboot
-
 BUG: When reading from the serial port, it doesn't check for data, but using the timeout instead
 
-BUG: When reading from the serial port, if the data length is massive, it returns too little.
-- changed to using readline and now it returns only the first line of data
-- maybe use a different function to read the settings that keeps reading until it gets them all
-- could set retries high for this so it keeps going, but the log file is messy.
-
-BUG: With some of the commands, it appears to be not reading the reply, but then getting them all at once!
-2017-04-01 17:05:57,318:INFO:[BLT]: Message >b'SF,1\r\n'< written to Bluetooth module and got response :6
-2017-04-01 17:05:57,829:DEBUG:[BLT]: Data read back from the serial port :b''
-2017-04-01 17:05:57,830:WARNING:[BLT]: Length of response received is too short:b''
-2017-04-01 17:05:57,830:INFO:[BLT]: Message >b'SF,1\r\n'< written to Bluetooth module and got response :6
-2017-04-01 17:05:58,341:DEBUG:[BLT]: Data read back from the serial port :b''
-2017-04-01 17:05:58,342:WARNING:[BLT]: Length of response received is too short:b''
-2017-04-01 17:05:58,343:INFO:[BLT]: Message >b'SF,1\r\n'< written to Bluetooth module and got response :6
-2017-04-01 17:05:58,854:DEBUG:[BLT]: Data read back from the serial port :b''
-2017-04-01 17:05:58,855:WARNING:[BLT]: Length of response received is too short:b''
-2017-04-01 17:05:59,356:INFO:[BLT]: Message >b'SM,0\r\n'< written to Bluetooth module and got response :6
-2017-04-01 17:06:00,369:DEBUG:[BLT]: Data read back from the serial port :b'AOK\r\nCMD> AOK\r\nCMD> AOK\r\nCMD> AOK\r\nCMD> '
-
-BUG: Use the below code instead of what I currently have
+BUG: Use the below code instead of what I currently have as the current method relies on the lower level
+    module to do all the work.
 >>> while True:
 	if ser.in_waiting:
 		print("%s" % ser.readall())
-
-BUG: When the bluetooth is turned off, the software still runs!
+    Consider having it read a character at a time and use the timeouts differently.
 
 TODO: Need to go through and add timeouts
 """
@@ -78,12 +35,12 @@ import time
 BAUDRATE = 115200           # The speed of the comms
 PORT1 = "/dev/serial0"      # The primary port being used for the comms
 PORT2 = "dev/ttyAMA0"       # The secondary port to try if the first fails
-BLT_TIMEOUT = 0.5           # The maximum time allowed to wait for a message on the serial port
-INTERDELAY = 0.5            # The delay between receiving one message via the Bluetooth module and sending the next message
+BLT_TIMEOUT = 1#.5           # The maximum time allowed to wait for a message on the serial port
+INTERDELAY = 0.01            # The delay between receiving one message via the Bluetooth module and sending the next message
                             # Typically used when configuring the Bluetooth module
 COMMS_TIMEOUT = 20          # During processing of Bluetooth messages, there is a timeout to determine if the message is old
                             # This is measured in seconds
-SRDELAY = 0.01              # The delay between send and receive of data using the UART to the Bluetooth module
+SRDELAY = 0.001              # The delay between send and receive of data using the UART to the Bluetooth module
                             # This is not a delay between messages, but the UART level comms
 RETRY_COUNT = 3             # The retry count is how many times it is going to send the command to retry it.
 REBOOT_TIME = 10            # The maximum time allowed for the bluetooth module to reboot
@@ -121,6 +78,7 @@ SETUP_BLUETOOTH = [b'SF,1',b'SM,0', b'SG,0', b'SN,eWaterPay Tap', b'SS,SPP eWate
                                       SG,0 - Dual Mode
                                                SN - Device Name
                                                                     SS - Service Name
+                                                                                        SA,2 - SSP "Just Works" mode
                                                                                         SA,4 - Legacy Pin mode
                                                                                                 SP - Pin number
 """
@@ -139,7 +97,11 @@ class RN4677:
         print("Initialising Bluetooth Module")
         self.incommsmode = False                # Set to true when successfully got into cmd mode
         self.fd = self._setup_uart()
-        self._setup_bluetooth()
+        if self._setup_bluetooth() == False:
+            logging.critical("[BLT]: Unable to initiate comms with the Bluetooth module")
+            print("Unable to initiate comms with the Bluetooth module")
+            sys.exit()
+        self.comms_status = True
 
     def connection_status(self):
         """
@@ -149,9 +111,9 @@ class RN4677:
         response = ""
         #Note: Need to check if in command mode first.
         if self._bluetooth_command_mode_wakeup():
-            reply = self._send_command(CONNECTION_STATUS)
+            reply = self._send_command(CONNECTION_STATUS, aok=False)
             # reply will contain the response -> 3 digits seperated by comma
-            connection_status = reply.split(b',')
+            connection_status = reply[1].split(b',')
             if len(connection_status) < 3:
                 logging.error("[BLT]: Connection Status returned incorrect status, got:%s" % reply)
                 return response
@@ -213,6 +175,14 @@ class RN4677:
         self._end_comms()
         self.fd.close()
         return
+        
+    def comms_status(self):
+        """
+        Returns the current status of the comms
+        
+        """
+        
+        return self.comms_status
 
 #-----------------------------------------------------------------------
 #
@@ -284,6 +254,7 @@ class RN4677:
         Read data from the serial port, using length if given
         return the data, length of zero if nothing of failed
         """
+        logging.debug("[BLT]: Start of read - timestamp")
         reply = b''
         try:
             if length == -1:
@@ -310,12 +281,12 @@ class RN4677:
         """
         For the given response, check the bluetooth reply is a positive reply
         return True if it is, else False if it isnt, capturing the error message
-        if aok or cmd set top False, won't check for them
-        A good response will have AOK before the 'CMD>' prompt
+        if aok or cmd set to False, won't check for them
+        A good response may have AOK before the 'CMD>' prompt
         """
         if aok:
             if len(receive) < POSITIVE_RSP_POSN:
-                logging.warning("[BLT]: Length of response received is too short:%s" % receive)
+                logging.warning("[BLT]: Response received is too short for AOK message:%s" % receive)
                 return False
 
             if POSITIVE_RSP not in receive[len(receive) - POSITIVE_RSP_POSN:]:
@@ -325,7 +296,7 @@ class RN4677:
 
         if cmd:
             if len(receive) < COMMAND_RSP_POSN:
-                logging.warning("[BLT]: Length of response received is too short:%s" % receive)
+                logging.warning("[BLT]: Response received is too short for CMD message:%s" % receive)
                 return False
 
             if COMMAND_RSP not in receive[len(receive) - COMMAND_RSP_POSN:]:
@@ -342,7 +313,6 @@ class RN4677:
         """
         logging.info("[BLT]: Waking up the Bluetooth module in command mode")
         working = False
-        starttime = time.time()
         # Check if in CMD mode already
         try:
             ans = self.fd.write(b'?\r\n')
@@ -357,8 +327,9 @@ class RN4677:
             working = self._check_blt_response(reply, aok=False)
         
         logging.debug("[BLT]: Command Mode Status:%s" % working)
-        
-        while (starttime + COMMS_TIMEOUT > time.time()) and working == False:
+
+        endtime = datetime.datetime.now() + datetime.timedelta(seconds=COMMS_TIMEOUT)
+        while (endtime > datetime.datetime.now()) and working == False:
             try:
                 ans = self.fd.write(WAKEUP)
                 logging.info("[BLT]: Wake-up message >%s< written to Bluetooth module and got response :%s" % (WAKEUP, ans))
@@ -372,6 +343,7 @@ class RN4677:
                 reply = self._read_from_sp()
 
                 working = self._check_blt_response(reply, aok=False)
+
 #                if working == False:
 #                    logging.debug("[BLT]: Wake-up message response is false, trying resetting of comms")
 #                    #Try clearing and send a carriage return to clear
@@ -383,10 +355,9 @@ class RN4677:
             else:
                 logging.warning("[BLT]: Failed to get a response from the Config Command %s" % WAKEUP)
 
-                
+        
 
-        # BUG: If already in command mode, don't get the same response. Need to add something
-        #   to attmept to reset it, maybe send a end comms command
+
         self.incommsmode = working
         return working
 
@@ -410,7 +381,7 @@ class RN4677:
             else:
                 logging.warning("[BLT]: Failed to Send Command %s" % command)
             tries = tries - 1
-        return reply
+        return [(tries > 0), reply]
 
     def _send_config_command_old(self, command, aok=True, cmd=True):
         """
@@ -474,7 +445,7 @@ class RN4677:
             logging.debug("[BLT]: Number of retries remaining: %s" % tries)
         if reboot == 10:
             self.incommsmode = False
-        return
+        return (reboot == 10)
 
     def _reboot_module_old(self):
         """
@@ -516,30 +487,29 @@ class RN4677:
         return True if completed
         """
         tries = RETRY_COUNT
-        command = VERSION + CR_LF
+        command = READ_ALL_SETTINGS + CR_LF
 #        reply = b''
         while tries > 0: 
             ans = self._write_to_sp(command)
             if ans > 0:
                 time.sleep(SRDELAY)
                 reply = b''
-                while reply != b'':
-                    try:
-                        #reply = self.fd.readall()
-                        reply = self.fd.readline()
-                        logging.debug("[BLT]: Configuration data read back from the serial port :%s" % reply)
-                            
-                    except:
-                        logging.warning("[BLT]: Reading of configuration data on the serial port FAILED")
-                        reply = b''
+                readinginprogress = True
+                while readinginprogress:
+                    lineread = self.fd.readline()
+                    logging.debug("[BLT]: Configuration data read back from the serial port :%s" % lineread)
+                    if lineread == b'':
+                        readinginprogress = False
+                    else:
+                        reply = reply + lineread
+                if self._check_blt_response(reply, aok=False):
+                    logging.debug("[BLT]: Configuration data read back successfully: %s" % command)
+                    break       #Only breaks out of this while statement, not the whole loops
 
-                if self._check_blt_response(reply):
-                    logging.debug("[BLT]: Sent Config Command successfully: %s" % command)
-                    break
             else:
-                logging.warning("[BLT]: Failed to Send Config Command %s" % command)
+                logging.warning("[BLT]: Failed to Send Configuration info Command %s" % command)
             tries = tries - 1
-        return reply
+        return (tries > 0)
 
 
     def _setup_bluetooth(self):
@@ -547,22 +517,27 @@ class RN4677:
         Setup the Bluetooth module configuration
         """
         logging.info("[BLT]: Setting up the Bluetooth module with the various commands")
-        self._bluetooth_command_mode_wakeup()
+        bcmw = self._bluetooth_command_mode_wakeup()
+        if bcmw == False:
+            sys.exit()
         time.sleep(INTERDELAY)
         
         # self._read_device_settings()
-        reply = self._read_config_data_from_sp()
+        rcdfs = self._read_config_data_from_sp()
         time.sleep(INTERDELAY)
 
-        reply = self._send_command(VERSION, aok=False)
+        sc = self._send_command(VERSION, aok=False)
         time.sleep(INTERDELAY)
+
+        stsc = True
         for msg in SETUP_BLUETOOTH:
-            reply = self._send_command(msg, aok=True)
+            status = self._send_command(msg, aok=True)
+            stsc = stsc & status[0]
             time.sleep(INTERDELAY)
-        self._reboot_module()
+        rm = self._reboot_module()
         time.sleep(INTERDELAY)
         
-        return
+        return (bcmw & rcdfs & sc[0] & stsc & rm)
 
     def _end_comms(self):
         """

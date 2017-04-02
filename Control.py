@@ -35,7 +35,17 @@ BUG: Can't use CTRL-C to exit the program
 
 """
 
-
+def SplashScreen():
+    print("***********************************************")
+    print("*         Bostin Technology Emulator          *")
+    print("*                                             *")
+    print("*       in association with eWater Pay        *")
+    print("*                                             *")
+    print("*         Bluetooth Test Application           *")
+    print("***********************************************\n")
+    return
+    
+    
 def main(device):
     
     decoder = cls_eWaterDecoder.eWaterPayAD(EWC_ID)
@@ -73,11 +83,11 @@ def main(device):
         print("Waiting for a message")
         while len(message) < 1:
             message = device.receive_data(-1)
-        print("Message Received:%s" % messag)
+        print("Message Received:%s" % message)
         reply = decoder.incoming(message)
         if decoder.reply_status:
             device.send_data(reply)
-            print("Reply SEnt:%s" % reply)
+            print("Reply Sent:%s" % reply)
         if decoder.download_status():
             print("Data downloading:")
         if decoder.file_write_status():
@@ -92,6 +102,8 @@ def main(device):
     
 
 if __name__ == '__main__':
+    
+    SplashScreen()
     
     logging.basicConfig(filename="BluetoothConfigurator.txt", filemode="w", level=logging.DEBUG,
                         format='%(asctime)s:%(levelname)s:%(message)s')
