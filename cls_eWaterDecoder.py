@@ -36,12 +36,12 @@ RSP_NEGATIVE = bytes.fromhex('11')
 
 # Command elements
 ETX_CHAR = bytes.fromhex('03')
-IOT_FIRMWARE = b'V1.11'
-EWC_FIRMWARE = b'V2.22'
-EWC_BOOTLOADER = b'V3.33'
-IOT_BOOTLOADER = b'V4.44'
-POWER_ON_TIME = b'12:12:12'
-LAST_POWER_OFF_TIME = b'11:11:11'
+IOT_FIRMWARE = b'\x00\x00\x01'
+EWC_FIRMWARE = b'\x00\x00\x02'
+EWC_BOOTLOADER = b'\x00\x00\x03'
+IOT_BOOTLOADER = b'\x00\x00\x04'
+POWER_ON_TIME = b'\x18\x42\x12\x12\x02\x17'                 #BUG: This needs to be converted to BCD
+LAST_POWER_OFF_TIME = b'\x09\x30\x59\x12\x02\x17'           #BUG: This needs to be converted to BCD.
 LAST_CHUNK_IDENTIFIER = b'\xff\xff'
 
 
@@ -212,6 +212,23 @@ class eWaterPayAD:
         
         return True
 
+    def _byte_to_bcd (byte):
+        """
+        Taken from eWATERtap
+        """
+        i=int.from_bytes(byte,"little")
+        LSB=int(i/16)*10
+        MSB=i-int(LSB/10)*16
+        BCD=LSB+MSB
+        return(BCD)
+
+
+    def _bcd_to_byte(bcd):
+        """
+        Taken from eWATERtap
+        """
+        return(bytes([(int(bcd/10)*16+(bcd-int(bcd/10)*10))]))
+
     def _add_xor(self,packet_to_send):
         """
         Generate the XOR character
@@ -282,6 +299,7 @@ class eWaterPayAD:
         packet_to_send = b''
 
         packet_to_send = packet_to_send + RSP_POSITIVE
+        packet_to_send = packet_to_send + CMD_ASSET_STATUS
         packet_to_send = packet_to_send + IOT_FIRMWARE
         packet_to_send = packet_to_send + EWC_FIRMWARE
         packet_to_send = packet_to_send + EWC_BOOTLOADER

@@ -31,6 +31,7 @@ Current status - app is running but the phone is connectting using default pin.
 Could be the various security settings that are wrong???
 
 BUG: Can't use CTRL-C to exit the program
+        Seen this when waiting for command
 
 
 """

@@ -22,6 +22,8 @@ BUG: Use the below code instead of what I currently have as the current method r
 		print("%s" % ser.readall())
     Consider having it read a character at a time and use the timeouts differently.
 
+BUG: Sometimes when rebooting, it misses the reboot responses.
+
 TODO: Need to go through and add timeouts
 """
 
