@@ -12,7 +12,16 @@ All private functions start with _
 TODO: Implement a CRC check
 TODO: implement the firmware megative response command
 
+TODO: Check all the commands meet the latest standard
+- Request ID
+- Firmeare File check
+- Ready to receive
+- Send Data Chunks
+    Different response on success or failure
+- When I receive a %NEW PAIRING% or other command, I need to disgard them without going any further
 
+BUG: When writing to the file, it is adding single quotes and failing.
+    
 
 """
 
@@ -40,8 +49,8 @@ IOT_FIRMWARE = b'\x00\x00\x01'
 EWC_FIRMWARE = b'\x00\x00\x02'
 EWC_BOOTLOADER = b'\x00\x00\x03'
 IOT_BOOTLOADER = b'\x00\x00\x04'
-POWER_ON_TIME = b'\x18\x42\x12\x12\x02\x17'                 #BUG: This needs to be converted to BCD
-LAST_POWER_OFF_TIME = b'\x09\x30\x59\x12\x02\x17'           #BUG: This needs to be converted to BCD.
+POWER_ON_TIME = b'\x18\x42\x12\x12\x02\x17'
+LAST_POWER_OFF_TIME = b'\x09\x30\x19\x12\x02\x17'
 LAST_CHUNK_IDENTIFIER = b'\xff\xff'
 
 
@@ -120,7 +129,8 @@ class eWaterPayAD:
                 elif self.cmd == CMD_DATA_CHUNK:
                     logging.info("[EWD]: Data Chunk Command received")
                     self.response = self._process_data_chunk()
-                    self.response_status = (len(self.response) > 0)     # The reply ios based on data being available to send
+                    #self.response = self._process_firmware()
+                    self.response_status = (len(self.response) > 0)     # The reply is based on data being available to send
                 else:
                     # Command is unknown
                     logging.info("[EWD]: Unknown Command Received")
@@ -376,6 +386,28 @@ class eWaterPayAD:
                 response = self._firmware_file_corrupt()
         return response
 
+    def _process_firmware(self):
+        """
+        Taking the received file, split it and write it to file.
+        self.message contains the incoming data
+        """
+        chunk = b''
+        response = ''
+        packet_size = 128
+        msg_received = self.message
+        while len(msg_received) > packet_size:
+            chunk = msg_received[:packet_size]
+            if self._split_message(chunk) == False:
+                print("Chunk decode failed, aborting")
+                print("chunk:%s" % chunk)
+                sys.exit()
+            response = self._process_data_chunk()
+            msg_received = msg_received[packet_size:]
+        return response
+
+        
+        
+        
         
 
 def main():

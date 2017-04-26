@@ -156,6 +156,8 @@ class RN4677:
         Capture whatever data over the serial port and return it
         lengthdata defines how many bytes to receive
         """
+        # Something to try
+        self.fd.timeout=0.1
         logging.info("[BLT]: Receiving data of length %s" % lengthdata)
         response = self._read_from_sp(lengthdata)
         response = response.strip(b'\r\n')
