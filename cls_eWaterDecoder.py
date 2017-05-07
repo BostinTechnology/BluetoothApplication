@@ -35,12 +35,15 @@ CMD_ASSET_STATUS = b'A'         #0x41
 CMD_REQUEST_ID = b'G'           #0x47
 CMD_DATA_CHUNK = b'H'           #0x48
 CMD_READY_TO_RECEIVE = b'I'     #0x49
-CMD_IOT_RECEIVED_OK = b'J'      #0x4A
-CMD_IOT_FIRMWARE_FAILED = bytes.fromhex('4F')       # Not yet defined
 
 # Command Replies
 RSP_POSITIVE = bytes.fromhex('80')
 RSP_NEGATIVE = bytes.fromhex('11')
+RSP_XOR_FAILURE = bytes.fromhex('88')
+RSP_NOT_READY = bytes.fromhex('14')
+RSP_COMMS_ERROR = bytes.fromhex('16')
+RSP_DEVICE_BUSY = bytes.fromhex('17')
+
 
 
 # Command elements
@@ -57,8 +60,9 @@ LAST_CHUNK_IDENTIFIER = b'\xff\xff'
 # Pointers to message parts (all starting from zero)
 CMD_LOCATION = 0
 ID_START = 1
+CHUNK_LEN_POSN = 7
 CHUNK_COUNTER_START = 5
-PAYLOAD_START = 7
+PAYLOAD_START = 8
 
 
 # Other parameters
@@ -87,6 +91,7 @@ class eWaterPayAD:
         self.response_status = False        # The status of the responding message (True = Valid message to send)
         self.file_written = False
         self.chunk = b''
+        self.len_chunk = b''
         self.payload = b''
         self.filename = ''        
         return
@@ -100,6 +105,7 @@ class eWaterPayAD:
         self.pkt_id = b''
         self.cmd = b''
         self.chunk = b''
+        self.len_chunk = b''
         self.payload = b''
         self.pkt_etx = b''
         self.response = b''                  # The reply for the calling function
@@ -110,7 +116,7 @@ class eWaterPayAD:
         self.message = message
         logging.debug("[EWD]: Received message for processing:%s" % self.message)
         
-        if self._split_message(self.message):
+        if self._extract_parts(self.message):
             self.time_packet_received = time.time()
             if self._validated():
                 logging.debug("[EWD]: Message is valid")
@@ -129,8 +135,7 @@ class eWaterPayAD:
                 elif self.cmd == CMD_DATA_CHUNK:
                     logging.info("[EWD]: Data Chunk Command received")
                     self.response = self._process_data_chunk()
-                    #self.response = self._process_firmware()
-                    self.response_status = (len(self.response) > 0)     # The reply is based on data being available to send
+                    self.response_status = True
                 else:
                     # Command is unknown
                     logging.info("[EWD]: Unknown Command Received")
@@ -180,9 +185,9 @@ class eWaterPayAD:
 #
 #-----------------------------------------------------------------------
 
-    def _split_message(self,packet):
+    def _extract_parts(self,packet):
         """
-        Splits the packet into the constituant parts
+        Extracts the cmd byte, the ID and the ETX from the message
         """
         status = False
         if len(packet) >= MIN_LENGTH:
@@ -190,26 +195,18 @@ class eWaterPayAD:
             self.cmd = packet[CMD_LOCATION:CMD_LOCATION+1]
             if len(packet) > (MIN_LENGTH + ID_LENGTH):
                 # If the message is longer than min + id, the next bit is the id
-                self.pkt_id = packet[ID_START:CHUNK_COUNTER_START]
-            if len(packet) > (PAYLOAD_START):
-                # If the message is longer than the payload start, must contain the chunk id and the remainder of the data
-                self.chunk = packet[CHUNK_COUNTER_START:PAYLOAD_START]
-                if len(packet) > (PAYLOAD_START + len(ETX_CHAR)):
-                    # Only add a payload if the packet is longer than the start of payload plus the etx char(s)
-                    self.payload = packet[PAYLOAD_START:-LENGTH_ETX]        #Note the minus sign
+                self.pkt_id = packet[ID_START:ID_START+ID_LENGTH]
             self.pkt_etx = packet[-LENGTH_ETX:]        #Note the minus sign
             status = True
         else:
             status = False
             logging.debug("[EWD]: Packet received is below the minimum length(%s)" % len(packet))
+
         logging.debug("[EWD]: Incoming message command:%s" % self.cmd)
         logging.debug("[EWD]: Incoming message ID:%s" % self.pkt_id)
-        logging.debug("[EWD]: Incoming message Chunk Number:%s" % self.chunk)
-        logging.debug("[EWD]: Incoming message Payload:%s" % self.payload)
         logging.debug("[EWD]: Incoming message ETX Character:%s" % self.pkt_etx)
-        
         return status
-
+    
     def _validated(self):
         # Routine to check the incoming packet is valid and for this instance of the EWC
         if len(self.pkt_id) > 0:
@@ -231,7 +228,6 @@ class eWaterPayAD:
         MSB=i-int(LSB/10)*16
         BCD=LSB+MSB
         return(BCD)
-
 
     def _bcd_to_byte(bcd):
         """
@@ -269,8 +265,8 @@ class eWaterPayAD:
             filetime = datetime.datetime.now().strftime("%y%m%d%H%M%S-%f")
             self.filename = "EWD-" + filetime + ".txt"
             datafile = open(self.filename, "w")
-            for chunk,data in self.file_received.items():
-                datafile.write('{0}:{1}/r/n'.format(chunk,data))
+            for chunk,data in sorted(self.file_received.items()):
+                datafile.write('{0}:{1}\r\n'.format(chunk,data))
             datafile.close()
             logging.info("[EWD] - Data File Written EWD%s" % filetime)
             self.file_written = True
@@ -280,28 +276,6 @@ class eWaterPayAD:
 
         return
     
-    def _firmware_received_ok(self):
-        """
-        Generate the firmware received ok message
-        """
-        packet_to_send = b''
-        packet_to_send = packet_to_send + CMD_IOT_RECEIVED_OK
-        packet_to_send = packet_to_send + self.ewc
-        packet_to_send = packet_to_send + ETX_CHAR
-        logging.info("[EWD]: Firmware Packet Received ok")
-        return packet_to_send
-    
-    def _firmware_file_corrupt(self):
-        """
-        Generate the firmware failed CRC check message
-        """
-        packet_to_send = b''
-        packet_to_send = packet_to_send + CMD_IOT_FIRMWARE_FAILED
-        packet_to_send = packet_to_send + self.ewc
-        packet_to_send = packet_to_send + ETX_CHAR
-        logging.ingo("[EWD]: Firmware Packet Received ok")
-        return packet_to_send
-        
     def _asset_response(self):
         """
         Generate the Asset Response
@@ -353,16 +327,85 @@ class eWaterPayAD:
 
         logging.info("[EWD] Message To Send: Ready to Recieve Response: %s" % packet_to_send)
         return packet_to_send
+    
+    def _communications_failure_response(self):
+        """
+        Generate a communications failure response to the Chunk command
+        """
+        packet_to_send = b''
+
+        packet_to_send = packet_to_send + RSP_COMMS_ERROR
+        packet_to_send = packet_to_send + CMD_DATA_CHUNK
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+        xor = self._add_xor(packet_to_send)
+
+        logging.info("[EWD] Message To Send: Communications Failure Response: %s" % packet_to_send)
+        return packet_to_send
+
+    def _firmware_received_ok(self):
+        """
+        Generate a communications failure response to the Chunk command
+        """
+        packet_to_send = b''
+
+        packet_to_send = packet_to_send + RSP_POSITIVE
+        packet_to_send = packet_to_send + CMD_DATA_CHUNK
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+        xor = self._add_xor(packet_to_send)
+
+        logging.info("[EWD] Message To Send: Firmware Received OK Response: %s" % packet_to_send)
+        return packet_to_send
+
+    def _firmware_file_corrupt(self):
+        """
+        Generate a firmware file corruption response to the Chunk command
+        """
+        packet_to_send = b''
+
+        packet_to_send = packet_to_send + RSP_XOR_FAILURE
+        packet_to_send = packet_to_send + CMD_DATA_CHUNK
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+        xor = self._add_xor(packet_to_send)
+
+        logging.info("[EWD] Message To Send: XOR Checksum Failure Response: %s" % packet_to_send)
+        return packet_to_send
+
+    def _spilt_chunk_message(self):
+        """
+        Taken the given packet, pull out all the constituent parts for the data chunk message)
+        """
+        status = False
+        if len(self.message) > (PAYLOAD_START):
+            # If the message is longer than the payload start, must contain the chunk id and the remainder of the data
+            self.chunk = self.message[CHUNK_COUNTER_START:CHUNK_LEN_POSN]
+            self.len_chunk = self.message[CHUNK_LEN_POSN]
+            # At this point I know the length of the payload
+            if self.len_chunk > 0:
+                self.payload = self.message[PAYLOAD_START:PAYLOAD_START+self.len_chunk]
+            else:
+                # No Payload received, could be the last chunk..
+                self.payload = b''
+            status = True
+        else:
+            status = False
+            logging.debug("[EWD]: Packet received is below the minimum length to include a payload: length received(%s)" % len(self.message))
+        logging.debug("[EWD]: Incoming message Chunk Number:%s" % self.chunk)
+        logging.debug("[EWD]: Incoming message Chunk Length:%s" % self.len_chunk)
+        logging.debug("[EWD]: Incoming message Payload:%s" % self.payload)
         
+        return status
+    
     def _process_data_chunk(self):
         """
         Taking the given payload (from the _split_message function), cehck it and add it to the 
         self.file_received. If it is the end of the file, generate a file from it.
         There is no need to validate the message as the incoming stage
         Message Structure
-        <CMD><ID0><ID1><ID2><ID3><Chunk MSB><Chunk LSB><byte1><byte2>..<byteN><ETX>
-              self.pkt_id        self.chunk            self.payload           self.pkt_etx
-        NOTE: response will be nothing unless the last chunk received
+        <CMD><ID0><ID1><ID2><ID3><Chunk MSB><Chunk LSB><Chunk LEN><byte1><byte2>..<byteN><ETX>
+              self.pkt_id        self.chunk            self.len_chunk    self.payload    self.pkt_etx
         """
         response = b''
         if self.receiving_data == False:
@@ -370,9 +413,13 @@ class eWaterPayAD:
             # Empty the dictionary
             self.file_received = {}
             self.receiving_data = True
-        # Add the data received to the dictionary
-        self.file_received[self.chunk] = self.payload
-
+        
+        if self._spilt_chunk_message():
+            # Add the data received to the dictionary
+            self.file_received[self.chunk] = self.payload
+        else:
+            logging.warning("[EWD]: Message corrupt, communications failure as message too short")
+            response = self._communications_failure_response()
         
         if self.chunk == LAST_CHUNK_IDENTIFIER:
             # We have received the last chunk of the file
@@ -384,28 +431,11 @@ class eWaterPayAD:
             else:
                 logging.warning("[EWD]: CRC check of the received file failed")
                 response = self._firmware_file_corrupt()
+        else:
+            # Not the last chunk
+            response = self._firmware_received_ok()
         return response
 
-    def _process_firmware(self):
-        """
-        Taking the received file, split it and write it to file.
-        self.message contains the incoming data
-        """
-        chunk = b''
-        response = ''
-        packet_size = 128
-        msg_received = self.message
-        while len(msg_received) > packet_size:
-            chunk = msg_received[:packet_size]
-            if self._split_message(chunk) == False:
-                print("Chunk decode failed, aborting")
-                print("chunk:%s" % chunk)
-                sys.exit()
-            response = self._process_data_chunk()
-            msg_received = msg_received[packet_size:]
-        return response
-
-        
         
         
         
