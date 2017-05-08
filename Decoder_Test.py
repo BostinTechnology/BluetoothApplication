@@ -14,6 +14,14 @@ def main():
     
     decode.incoming(b'I\x03')
     
+    decode.incoming(b'L\x01\x00\x00\x00\x03\x50')       # Request last record pointer
+    
+    decode.incoming(b'R\x01\x00\x00\x00\x12\x03\x04\x03\x50')
+    
+    decode.incoming(b'V\x01\x00\x00\x00\x03\x5A')       # Valve On
+    
+    decode.incoming(b'C\x01\x00\x00\x00\x30\x50\x10\x09\x02\x16\x03\x5A')       # Set RTC
+    
     # data \xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\exd\xee\xef
     """
     decode.incoming(b'H\x01\x00\x00\x00\x00\x01\xa0\xa1\xa2\xa3\xa4\xa5\xa6\xa7\xa8\xa9\xaa\xab\xac\xad\xae\xaf\x03')
@@ -23,6 +31,7 @@ def main():
     decode.incoming(b'H\x01\x00\x00\x00\x00\x05\xe0\xe1\xe2\xe3\xe4\xe5\xe6\xe7\xe8\xe9\xea\xeb\xec\exd\xee\xef\x03')
     decode.incoming(b'H\x01\x00\x00\x00\xff\xff\x03')
     """
+
     decode.incoming(b'H\x01\x00\x00\x00\x00\xe6\x7c:1000000000800020B1010000DD010000DD010000E2\r\n:10001000DD010000DD010000DD010000DD01000068\r\n:10002000DD010000DD010000DD010\x03')
     decode.incoming(b'H\x01\x00\x00\x00\x00\xe5\x7c000DD01000058\r\n:10003000DD010000DD010000DD010000DD01000048\r\n:10004000FD110000DD010000DD010000DD01000008\r\n:10005000DD0100\x03')
     decode.incoming(b'H\x01\x00\x00\x00\x00\xe4\x7c00DD010000DD010000DD01000028\r\n:10006000DD010000DD010000DD010000DD01000018\r\n:10007000DD010000DD010000DD010000DD01000008\r\n\x03')
@@ -252,10 +261,10 @@ def main():
     decode.incoming(b'H\x01\x00\x00\x00\x00\x04\x7c0BF0000000058\r\n:1025B000882600000E4B70B51E460E4C0025E41A0E\r\n:1025C000A410A54204D056F8253098470135F8E705\r\n:1025D00000F020\x03')
     decode.incoming(b'H\x01\x00\x00\x00\x00\x03\x7cF8084B094C1E46E41AA410002510\r\n:1025E000A54204D056F8253098470135F8E770BD6C\r\n:1025F0006C0000206C0000206C00002070000020A7\r\n\x03')
     decode.incoming(b'H\x01\x00\x00\x00\x00\x02\x7c:1026000003460244934202D003F8011BFAE77047E5\r\n:10261000FEE700BFF8B500BFF8BC08BC9E46704797\r\n:10262000F8B500BFF8BC08BC9E467\x03')
-    decode.incoming(b'H\x01\x00\x00\x00\x00\x0\x7c10470809110801\r\n:10263000050000000000000000C2010000050000CD\r\n:102640000010000000000000050000000000000075\r\n:1026500040420F\x03')
+    decode.incoming(b'H\x01\x00\x00\x00\x00\x01\x7c10470809110801\r\n:10263000050000000000000000C2010000050000CD\r\n:102640000010000000000000050000000000000075\r\n:1026500040420F\x03')
     decode.incoming(b'H\x01\x00\x00\x00\xff\xff\x00\x03')
     
-    
+
     
     return
 

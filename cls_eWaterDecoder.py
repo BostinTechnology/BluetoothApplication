@@ -29,12 +29,18 @@ import logging
 import datetime
 import time
 import binascii
+import random
 
 # Commands supported
 CMD_ASSET_STATUS = b'A'         #0x41
 CMD_REQUEST_ID = b'G'           #0x47
 CMD_DATA_CHUNK = b'H'           #0x48
 CMD_READY_TO_RECEIVE = b'I'     #0x49
+CMD_LAST_RECORD_PTR = b'L'      #0x4C
+CMD_MISSING_DATALOG_REQ = b'R'  #0x52
+CMD_DATALOG_PACKET = b'D'       #0x44
+CMD_SET_RTC = b'C'              #0x43
+CMD_VALVE_ON = b'V'             #0x56
 
 # Command Replies
 RSP_POSITIVE = bytes.fromhex('80')
@@ -63,6 +69,8 @@ ID_START = 1
 CHUNK_LEN_POSN = 7
 CHUNK_COUNTER_START = 5
 PAYLOAD_START = 8
+BLOCK_POSN = 5
+POINTER_START = 6
 
 
 # Other parameters
@@ -71,7 +79,14 @@ ID_LENGTH = 4           # The number of bytes for the ID
 CHUNK_COUNTER_LEN = 2   # The length of the chunk counter
 LENGTH_ETX = 1          # The length of the ETX character(s)
 
-
+# Default valeus for the returned data packet
+UUID = b'\x3e\xAA\xAA\x3c'
+USAGE = b'\x30\x30\x31\x31'
+START_CREDIT = b'\x34\x30\x30\x30'
+END_CREDIT = b'\x33\x39\x38\x39'
+FLOW_COUNT = b'\x01\x10'
+FLOW_TIME = b'\x1A\x1A'
+LITRE_CREDIT_CONV = b'\xC1\xC0'
 
 
 class eWaterPayAD:
@@ -136,6 +151,22 @@ class eWaterPayAD:
                     logging.info("[EWD]: Data Chunk Command received")
                     self.response = self._process_data_chunk()
                     self.response_status = True
+                elif self.cmd == CMD_LAST_RECORD_PTR:
+                    logging.info("[EWD]: Last Record Pointer Request received")
+                    self.response = self._last_record_pointer()
+                    self.response_status = True
+                elif self.cmd == CMD_MISSING_DATALOG_REQ:
+                    logging.info("[EWD]: Missing Datalog Record Request received")
+                    self.response = self._missing_datalog_record()
+                    self.response_status = True
+                elif self.cmd == CMD_SET_RTC:
+                    logging.info("[EWD]: Set RTC ID Command received")
+                    self.response = self._set_rtc_response()
+                    self.response_status = True
+                elif self.cmd == CMD_VALVE_ON:
+                    logging.info("[EWD]: Valve On Command received")
+                    self.response = self._valve_on_response()
+                    self.response_status = True
                 else:
                     # Command is unknown
                     logging.info("[EWD]: Unknown Command Received")
@@ -196,7 +227,11 @@ class eWaterPayAD:
             if len(packet) > (MIN_LENGTH + ID_LENGTH):
                 # If the message is longer than min + id, the next bit is the id
                 self.pkt_id = packet[ID_START:ID_START+ID_LENGTH]
-            self.pkt_etx = packet[-LENGTH_ETX:]        #Note the minus sign
+            if self.cmd in (CMD_LAST_RECORD_PTR,CMD_MISSING_DATALOG_REQ,CMD_SET_RTC,CMD_VALVE_ON):
+                # this command has the XOR at the end
+                self.pkt_etx = packet[-(LENGTH_ETX+1):-LENGTH_ETX]        #Note the minus sign
+            else:
+                self.pkt_etx = packet[-LENGTH_ETX:]        #Note the minus sign
             status = True
         else:
             status = False
@@ -436,10 +471,126 @@ class eWaterPayAD:
             response = self._firmware_received_ok()
         return response
 
-        
-        
-        
+    def _last_record_pointer(self):
+        """
+        Generate a last record pointer return value
+        """
+        packet_to_send = b''
+        block = random.randint(0,255)
+        pointer = random.randint(0,1023)
+        packet_to_send = packet_to_send + RSP_POSITIVE
+        packet_to_send = packet_to_send + CMD_LAST_RECORD_PTR
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + block.to_bytes(1, byteorder="big", signed=False)
+        packet_to_send = packet_to_send + pointer.to_bytes(2, byteorder="big", signed=False)
+        packet_to_send = packet_to_send + ETX_CHAR
+        xor = self._add_xor(packet_to_send)
 
+        logging.info("[EWD] Message To Send: Last Record Pointer Response: %s" % packet_to_send)
+        return packet_to_send
+    
+    def _generate_packet(self):
+        """
+        Generates and returns a single packet in binary format
+        EE SS MM HH DD MT YY UU UU UU UU UC UC UC UC SCR SCR SCR SCR ECR ECR ECR ECR FC FC FT FT CONVH CONVL
+        0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15  16  17  18  19  20  21  22  23 24 25 26 27    28 
+        """
+        
+        # Create an empty packet
+        data_packet = b''
+
+        # Error Code
+        data_packet = data_packet + RSP_POSITIVE
+        
+        # Date and Time
+        timenow = datetime.datetime.now()
+        logging.debug("[EWD]:Date & Time being used:%s" % timenow)
+
+        #BUG: This is not working correctly as it is not returning BCD.
+        data_packet = data_packet + binascii.a2b_hex('{:02d}'.format(timenow.second))
+        data_packet = data_packet + binascii.a2b_hex('{:02d}'.format(timenow.minute))
+        data_packet = data_packet + binascii.a2b_hex('{:02d}'.format(timenow.hour))
+        data_packet = data_packet + binascii.a2b_hex('{:02d}'.format(timenow.day))
+        data_packet = data_packet + binascii.a2b_hex('{:02d}'.format(timenow.month))
+        data_packet = data_packet + binascii.a2b_hex('{:02d}'.format(timenow.year)[2:4])
+
+        # 4 byte card UUID
+        data_packet = data_packet + UUID
+
+        # 4 byte usage counter
+        data_packet = data_packet + USAGE
+
+        # 4 byte start credit
+        data_packet = data_packet + START_CREDIT
+
+        # 4 byte end credit
+        data_packet = data_packet + END_CREDIT
+
+        # 2 byte flow meter count
+        data_packet = data_packet + FLOW_COUNT
+
+        # 2 byte flow meter time
+        data_packet = data_packet + FLOW_TIME
+        
+        data_packet = data_packet + LITRE_CREDIT_CONV
+        logging.debug("[EWD]:Datalog Packet Generated:%s" % data_packet)
+        return data_packet
+    
+    def _missing_datalog_record(self):
+        """
+        Generate a missing datalog packet request
+        """
+        # Firstly extract block and pointer
+        req_block = self.message[BLOCK_POSN:BLOCK_POSN+1]
+        req_pointer = self.message[POINTER_START:POINTER_START+2]
+
+        packet_to_send = b''
+
+        packet_to_send = packet_to_send + CMD_DATALOG_PACKET
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + self._generate_packet()
+        packet_to_send = packet_to_send + req_block
+        packet_to_send = packet_to_send + req_pointer
+        packet_to_send = packet_to_send + ETX_CHAR
+        xor = self._add_xor(packet_to_send)
+
+        logging.info("[EWD] Message To Send: Datalog Packet Response: %s" % packet_to_send)
+        return packet_to_send
+
+    def _set_rtc_response(self):
+        """
+        Generate a positive response to the Set RTC
+        """
+        packet_to_send = b''
+
+        packet_to_send = packet_to_send + RSP_POSITIVE
+        packet_to_send = packet_to_send + CMD_SET_RTC
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+
+        xor = self._add_xor(packet_to_send)
+        packet_to_send = packet_to_send + xor
+
+        logging.info("[EWD] Message TO Send: Set RTC Response: %s" % packet_to_send)
+        return packet_to_send
+        
+    def _valve_on_response(self):
+        """
+        Generate a positive response to the Valve On command
+        """
+        packet_to_send = b''
+
+        packet_to_send = packet_to_send + RSP_POSITIVE
+        packet_to_send = packet_to_send + CMD_VALVE_ON
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+
+        xor = self._add_xor(packet_to_send)
+        packet_to_send = packet_to_send + xor
+
+        logging.info("[EWD] Message TO Send: Valve On Response: %s" % packet_to_send)
+        return packet_to_send
+        
 def main():
 	
 	return 0
