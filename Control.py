@@ -112,7 +112,8 @@ if __name__ == '__main__':
     device = ""
     try:
         device = cls_RN4677.RN4677()
-        main(device)
+        if device.comms_status == True:
+            main(device)
     
     except:
         logging.error("[CTL]: AN error has occurred and comms is exiting")

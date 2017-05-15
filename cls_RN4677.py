@@ -102,8 +102,9 @@ class RN4677:
         if self._setup_bluetooth() == False:
             logging.critical("[BLT]: Unable to initiate comms with the Bluetooth module")
             print("Unable to initiate comms with the Bluetooth module")
-            sys.exit()
-        self.comms_status = True
+        else:
+            self.comms_status = True
+        return
 
     def connection_status(self):
         """
@@ -523,7 +524,7 @@ class RN4677:
         logging.info("[BLT]: Setting up the Bluetooth module with the various commands")
         bcmw = self._bluetooth_command_mode_wakeup()
         if bcmw == False:
-            sys.exit()
+            return False
         time.sleep(INTERDELAY)
         
         # self._read_device_settings()
