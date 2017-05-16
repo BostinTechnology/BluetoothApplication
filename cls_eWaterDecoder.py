@@ -49,6 +49,7 @@ RSP_XOR_FAILURE = bytes.fromhex('88')
 RSP_NOT_READY = bytes.fromhex('14')
 RSP_COMMS_ERROR = bytes.fromhex('16')
 RSP_DEVICE_BUSY = bytes.fromhex('17')
+RSP_FIRMEWARE_OK = b'J'
 
 
 
@@ -384,6 +385,21 @@ class eWaterPayAD:
         """
         packet_to_send = b''
 
+        packet_to_send = packet_to_send + RSP_FIRMEWARE_OK
+        #packet_to_send = packet_to_send + CMD_DATA_CHUNK
+        packet_to_send = packet_to_send + self.ewc
+        packet_to_send = packet_to_send + ETX_CHAR
+        #xor = self._add_xor(packet_to_send)
+
+        logging.info("[EWD] Message To Send: Firmware Received OK Response: %s" % packet_to_send)
+        return packet_to_send
+
+    def _chunk_received_ok(self):
+        """
+        Generate a communications failure response to the Chunk command
+        """
+        packet_to_send = b''
+
         packet_to_send = packet_to_send + RSP_POSITIVE
         packet_to_send = packet_to_send + CMD_DATA_CHUNK
         packet_to_send = packet_to_send + self.ewc
@@ -392,7 +408,6 @@ class eWaterPayAD:
 
         logging.info("[EWD] Message To Send: Firmware Received OK Response: %s" % packet_to_send)
         return packet_to_send
-
     def _firmware_file_corrupt(self):
         """
         Generate a firmware file corruption response to the Chunk command
@@ -408,7 +423,7 @@ class eWaterPayAD:
         logging.info("[EWD] Message To Send: XOR Checksum Failure Response: %s" % packet_to_send)
         return packet_to_send
 
-    def _spilt_chunk_message(self):
+    def _spilt_chunk_message_old(self):
         """
         Taken the given packet, pull out all the constituent parts for the data chunk message)
         """
@@ -449,12 +464,16 @@ class eWaterPayAD:
             self.file_received = {}
             self.receiving_data = True
         
-        if self._spilt_chunk_message():
-            # Add the data received to the dictionary
-            self.file_received[self.chunk] = self.payload
-        else:
-            logging.warning("[EWD]: Message corrupt, communications failure as message too short")
-            response = self._communications_failure_response()
+        # Need to strip out the parts of the message now, 
+        if len(self.message) > CHUNK_COUNTER_START:
+            self.chunk = self.message[CHUNK_COUNTER_START:CHUNK_LEN_POSN]
+        
+        #if self._spilt_chunk_message():
+        #    # Add the data received to the dictionary
+        #    self.file_received[self.chunk] = self.payload
+        #else:
+        #    logging.warning("[EWD]: Message corrupt, communications failure as message too short")
+        #    response = self._communications_failure_response()
         
         if self.chunk == LAST_CHUNK_IDENTIFIER:
             # We have received the last chunk of the file
@@ -468,7 +487,15 @@ class eWaterPayAD:
                 response = self._firmware_file_corrupt()
         else:
             # Not the last chunk
-            response = self._firmware_received_ok()
+            self.len_chunk = self.message[CHUNK_LEN_POSN]
+            # At this point I know the length of the payload
+            self.payload = self.message[PAYLOAD_START:PAYLOAD_START+self.len_chunk]
+
+            response = self._chunk_received_ok()
+
+        logging.debug("[EWD]: Incoming message Chunk Number:%s" % self.chunk)
+        logging.debug("[EWD]: Incoming message Chunk Length:%s" % self.len_chunk)
+        logging.debug("[EWD]: Incoming message Payload:%s" % self.payload)
         return response
 
     def _last_record_pointer(self):
