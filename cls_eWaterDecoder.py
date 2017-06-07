@@ -228,11 +228,13 @@ class eWaterPayAD:
             if len(packet) > (MIN_LENGTH + ID_LENGTH):
                 # If the message is longer than min + id, the next bit is the id
                 self.pkt_id = packet[ID_START:ID_START+ID_LENGTH]
-            if self.cmd in (CMD_LAST_RECORD_PTR,CMD_MISSING_DATALOG_REQ,CMD_SET_RTC,CMD_VALVE_ON):
-                # this command has the XOR at the end
-                self.pkt_etx = packet[-(LENGTH_ETX+1):-LENGTH_ETX]        #Note the minus sign
-            else:
-                self.pkt_etx = packet[-LENGTH_ETX:]        #Note the minus sign
+#            if self.cmd in (CMD_LAST_RECORD_PTR,CMD_MISSING_DATALOG_REQ,CMD_SET_RTC,CMD_VALVE_ON):
+#                # this command has the XOR at the end
+#                self.pkt_etx = packet[-(LENGTH_ETX+1):-LENGTH_ETX]        #Note the minus sign
+#            else:
+#                self.pkt_etx = packet[-LENGTH_ETX:]        #Note the minus sign
+            # the commands have the XOR at the end
+            self.pkt_etx = packet[-(LENGTH_ETX+1):-LENGTH_ETX]        #Note the minus sign
             status = True
         else:
             status = False
@@ -245,7 +247,7 @@ class eWaterPayAD:
     
     def _validated(self):
         # Routine to check the incoming packet is valid and for this instance of the EWC
-        if len(self.pkt_id) > 0:
+        if self.cmd != CMD_REQUEST_ID:
             if self.ewc != self.pkt_id:
                 logging.info("[EWD]: Message Validation: Incorrect ID")
                 return False
@@ -359,6 +361,7 @@ class eWaterPayAD:
 
         packet_to_send = packet_to_send + RSP_POSITIVE
         packet_to_send = packet_to_send + CMD_READY_TO_RECEIVE
+        packet_to_send = packet_to_send + self.ewc
         packet_to_send = packet_to_send + ETX_CHAR
 
         logging.info("[EWD] Message To Send: Ready to Recieve Response: %s" % packet_to_send)
@@ -386,10 +389,10 @@ class eWaterPayAD:
         packet_to_send = b''
 
         packet_to_send = packet_to_send + RSP_FIRMEWARE_OK
-        #packet_to_send = packet_to_send + CMD_DATA_CHUNK
+        packet_to_send = packet_to_send + CMD_DATA_CHUNK
         packet_to_send = packet_to_send + self.ewc
         packet_to_send = packet_to_send + ETX_CHAR
-        #xor = self._add_xor(packet_to_send)
+        xor = self._add_xor(packet_to_send)
 
         logging.info("[EWD] Message To Send: Firmware Received OK Response: %s" % packet_to_send)
         return packet_to_send
@@ -408,6 +411,7 @@ class eWaterPayAD:
 
         logging.info("[EWD] Message To Send: Firmware Received OK Response: %s" % packet_to_send)
         return packet_to_send
+        
     def _firmware_file_corrupt(self):
         """
         Generate a firmware file corruption response to the Chunk command
